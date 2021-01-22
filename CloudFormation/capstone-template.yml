@@ -179,8 +179,8 @@ Resources:
           Ebs:
             VolumeSize: '8'
         InstanceType: t2.micro
-        ImageId: ami-09dd2e08d601bff67
-        KeyName: "SBUdacityKP"
+        ImageId: ami-0dd9f0e7df0f0a138
+        KeyName: "udapeople"
         NetworkInterfaces: 
           - AssociatePublicIpAddress: "true"
             DeviceIndex: "0"
@@ -217,7 +217,7 @@ Resources:
             unzip awscliv2.zip
             ./aws/install
             # Install Kubectl
-            curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/linux/amd64/kubectl
+            curl -o kubectl https://amazon-eks.s3.us-east-2.amazonaws.com/1.16.8/2020-04-16/bin/linux/amd64/kubectl
             chmod +x ./kubectl
             mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
             echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc
@@ -285,7 +285,7 @@ Resources:
             unzip awscliv2.zip
             ./aws/install
             # Install Kubectl
-            curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/linux/amd64/kubectl
+            curl -o kubectl https://amazon-eks.s3.us-east-2.amazonaws.com/1.16.8/2020-04-16/bin/linux/amd64/kubectl
             chmod +x ./kubectl
             mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
             echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc
