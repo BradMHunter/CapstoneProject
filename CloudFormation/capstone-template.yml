@@ -1,5 +1,5 @@
 Description: >
-    Sean Breach / Udacity - Capstone Project
+    Brad Hunter / Udacity - Capstone Project
     This template deploys a Jenkins Master Box, a Ubuntu Dev Box and an Amazon EKS Setup
 
 Parameters:
