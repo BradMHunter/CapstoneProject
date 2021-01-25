@@ -2,12 +2,6 @@ Description: >
     Brad Hunter / Udacity - Capstone Project
     This template deploys a Jenkins Master Box, a Ubuntu Dev Box and an Amazon EKS Setup
 
-Parameters:
-    EnvironmentName:
-        Default: CapstoneEnvName
-        Description: This the Environment Name for the Capstone Project
-        Type: AWS::SSM::Parameter::Value<String>
-
 Resources:
     # Network Setup Here
     VPC: 
@@ -16,13 +10,13 @@ Resources:
             EnableDnsHostnames: true
             Tags: 
                 - Key: Name 
-                  Value: !Sub ${EnvironmentName}-VPC
+                  Value: CapstoneEnvName-VPC
         Type: AWS::EC2::VPC
     InternetGateway:
         Properties:
             Tags: 
                 - Key: Name 
-                  Value: !Sub ${EnvironmentName}-InternetGateway
+                  Value: CapstoneEnvName-InternetGateway
         Type: AWS::EC2::InternetGateway
     InternetGatewayAttachment:
         Properties:
@@ -36,7 +30,7 @@ Resources:
             MapPublicIpOnLaunch: true
             Tags: 
                 - Key: Name 
-                  Value: !Sub ${EnvironmentName}-PublicSubnet1
+                  Value: CapstoneEnvName-PublicSubnet1
             VpcId: !Ref VPC
         Type: AWS::EC2::Subnet
     PublicSubnet2: 
@@ -46,14 +40,14 @@ Resources:
             MapPublicIpOnLaunch: true
             Tags: 
                 - Key: Name 
-                  Value: !Sub ${EnvironmentName}-PublicSubnet2
+                  Value: CapstoneEnvName-PublicSubnet2
             VpcId: !Ref VPC
         Type: AWS::EC2::Subnet
     PublicRouteTable:
         Properties: 
             Tags: 
                 - Key: Name 
-                  Value: !Sub ${EnvironmentName}-PublicRouteTable
+                  Value: CapstoneEnvName-PublicRouteTable
             VpcId: !Ref VPC
         Type: AWS::EC2::RouteTable
     DefaultPublicRoute: 
@@ -106,7 +100,7 @@ Resources:
               ToPort: 22
             Tags: 
                 - Key: Name 
-                  Value: !Sub ${EnvironmentName}-EC2SecGroup
+                  Value: CapstoneEnvName-EC2SecGroup
             VpcId: !Ref VPC
         Type: AWS::EC2::SecurityGroup
     SecGroup:
@@ -128,7 +122,7 @@ Resources:
               ToPort: 80
             Tags: 
                 - Key: Name 
-                  Value: !Sub ${EnvironmentName}-SecGroup
+                  Value: CapstoneEnvName-SecGroup
             VpcId: !Ref VPC
         Type: AWS::EC2::SecurityGroup
 
@@ -147,7 +141,7 @@ Resources:
                   - sts:AssumeRole
             Tags: 
                 - Key: Name 
-                  Value: !Sub ${EnvironmentName}-EKSClusterRole
+                  Value: CapstoneEnvName-EKSClusterRole
             ManagedPolicyArns:
                 - arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
 
@@ -326,7 +320,7 @@ Resources:
                 DesiredSize: 1
                 MaxSize: 1
             Labels:
-                Key1: !Sub ${EnvironmentName}-EKSNodegroup
+                Key1: CapstoneEnvName-EKSNodegroup
             Subnets:
                 - !Ref PublicSubnet1
                 - !Ref PublicSubnet2
@@ -335,25 +329,25 @@ Outputs:
     VPC: 
         Description: A reference to the created VPC
         Export:
-          Name: !Sub ${EnvironmentName}-VPCID
+          Name: CapstoneEnvName-VPCID
         Value: !Ref VPC
     JenkinsInstanceIP: 
         Description: A reference to the created Jenkins EC2 IP
         Export:
-          Name: !Sub ${EnvironmentName}-JenkinsInstanceID
+          Name: CapstoneEnvName-JenkinsInstanceID
         Value: !GetAtt JenkinsInstance.PublicIp
     UbuntuDevInstanceIP:
         Description: A reference to the created Ubuntu Dev EC2 IP
         Export:
-          Name: !Sub ${EnvironmentName}-UbuntuDevInstanceID
+          Name: CapstoneEnvName-UbuntuDevInstanceID
         Value: !GetAtt UbuntuDevInstance.PublicIp
     EKSClusterInstanceARN:
         Description: A reference to the created EKS Cluster
         Export:
-          Name: !Sub ${EnvironmentName}-EKSClusterARN
+          Name: CapstoneEnvName-EKSClusterARN
         Value: !GetAtt EKSCluster.Arn
     EKSClusterRoleArn: 
         Description: A reference to the created EKSClusterRoleArn
         Export:
-          Name: !Sub ${EnvironmentName}-EKSClusterRole
+          Name: CapstoneEnvName-EKSClusterRole
         Value: !GetAtt EKSClusterRole.Arn
