@@ -2,12 +2,6 @@ Description: >
     Brad Hunter / Udacity - Capstone Project
     This template deploys a Jenkins Master Box, a Ubuntu Dev Box and an Amazon EKS Setup
 
-Parameters:
-    EnvironmentName:
-        Default: CapstoneEnvName
-        Description: This the Environment Name for the Capstone Project
-        Type: AWS::SSM::Parameter::Value<String>
-
 Resources:
     # Network Setup Here
     VPC: 
@@ -16,13 +10,13 @@ Resources:
             EnableDnsHostnames: true
             Tags: 
                 - Key: Name 
-                  Value: !Sub ${EnvironmentName}-VPC
+                  Value: CapstoneEnvName-VPC
         Type: AWS::EC2::VPC
     InternetGateway:
         Properties:
             Tags: 
                 - Key: Name 
-                  Value: !Sub ${EnvironmentName}-InternetGateway
+                  Value: CapstoneEnvName-InternetGateway
         Type: AWS::EC2::InternetGateway
     InternetGatewayAttachment:
         Properties:
@@ -36,7 +30,7 @@ Resources:
             MapPublicIpOnLaunch: true
             Tags: 
                 - Key: Name 
-                  Value: !Sub ${EnvironmentName}-PublicSubnet1
+                  Value: CapstoneEnvName-PublicSubnet1
             VpcId: !Ref VPC
         Type: AWS::EC2::Subnet
     PublicSubnet2: 
@@ -46,14 +40,14 @@ Resources:
             MapPublicIpOnLaunch: true
             Tags: 
                 - Key: Name 
-                  Value: !Sub ${EnvironmentName}-PublicSubnet2
+                  Value: CapstoneEnvName-PublicSubnet2
             VpcId: !Ref VPC
         Type: AWS::EC2::Subnet
     PublicRouteTable:
         Properties: 
             Tags: 
                 - Key: Name 
-                  Value: !Sub ${EnvironmentName}-PublicRouteTable
+                  Value: CapstoneEnvName-PublicRouteTable
             VpcId: !Ref VPC
         Type: AWS::EC2::RouteTable
     DefaultPublicRoute: 
@@ -106,7 +100,7 @@ Resources:
               ToPort: 22
             Tags: 
                 - Key: Name 
-                  Value: !Sub ${EnvironmentName}-EC2SecGroup
+                  Value: CapstoneEnvName-EC2SecGroup
             VpcId: !Ref VPC
         Type: AWS::EC2::SecurityGroup
     SecGroup:
@@ -128,7 +122,7 @@ Resources:
               ToPort: 80
             Tags: 
                 - Key: Name 
-                  Value: !Sub ${EnvironmentName}-SecGroup
+                  Value: CapstoneEnvName-SecGroup
             VpcId: !Ref VPC
         Type: AWS::EC2::SecurityGroup
 
@@ -147,7 +141,7 @@ Resources:
                   - sts:AssumeRole
             Tags: 
                 - Key: Name 
-                  Value: !Sub ${EnvironmentName}-EKSClusterRole
+                  Value: CapstoneEnvName-EKSClusterRole
             ManagedPolicyArns:
                 - arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
 
@@ -192,49 +186,49 @@ Resources:
           Fn::Base64: !Sub |
             #!/bin/bash
             #--Setup Server--
-            apt-get update -y
+            sudo apt-get update -y
             # Install Unzip
-            apt install unzip
+            sudo apt install unzip
             # Get Hadolint
             wget -O /usr/bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.17.6/hadolint-Linux-x86_64
-            chmod +x /usr/bin/hadolint
+            sudo chmod +x /usr/bin/hadolint
             # Python 3 - Required for Boto
-            apt install python3-pip -y
+            sudo apt install python3-pip -y
             # Install JQ for JSON Parsing
-            apt install jq
+            sudo apt install jq
             # Java Runtime for Jenkins
-            apt install default-jdk -y
+            sudo apt install default-jdk -y
             # Tidy Used for Jenkins Linting
-            apt install tidy -y
+            sudo apt install tidy -y
             # Docker Setup
-            apt install docker.io -y
+            sudo apt install docker.io -y
             # Ansible Setup
-            apt install ansible -y
+            sudo apt install ansible -y
             # Boto Setup
-            pip3 install boto
+            sudo pip3 install boto
             # AWS CLI V2
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            ./aws/install
+            sudo unzip awscliv2.zip
+            sudo ./aws/install
             # Install Kubectl
             curl -o kubectl https://amazon-eks.s3.us-east-2.amazonaws.com/1.16.8/2020-04-16/bin/linux/amd64/kubectl
-            chmod +x ./kubectl
-            mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
-            echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc
+            sudo chmod +x ./kubectl
+            sudo mkdir -p $HOME/bin && sudo cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
+            sudo echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc
             # Install eksctl
             curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/0.20.0-rc.0/eksctl_Linux_amd64.tar.gz" | tar xz -C /tmp
-            mv /tmp/eksctl /usr/local/bin
+            sudo mv /tmp/eksctl /usr/local/bin
             # Add Jenkins Key and Source List to Server
             wget -q -O - https://pkg.Jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
-            sh -c "echo 'deb https://pkg.jenkins.io/debian-stable binary/' > /etc/apt/sources.list.d/jenkins.list"
-            apt-get update
+            sudo sh -c "echo 'deb https://pkg.jenkins.io/debian-stable binary/' > /etc/apt/sources.list.d/jenkins.list"
+            sudo apt-get update
             # Start Jenkins and Setup to Run when Ubunto Starts
-            apt install jenkins -y
+            sudo apt install jenkins -y
             # Adding Jenkins to the Docker Security Group (Allow Aqua MicroScanner Access to Scan)
-            usermod -a -G docker jenkins
-            systemctl start jenkins
-            systemctl enable jenkins
-            systemctl status jenkins
+            sudo usermod -a -G docker jenkins
+            sudo systemctl start jenkins
+            sudo systemctl enable jenkins
+            sudo systemctl status jenkins
       Type: AWS::EC2::Instance
 
     # Dev Server Setup
@@ -245,8 +239,8 @@ Resources:
           Ebs:
             VolumeSize: '8'
         InstanceType: t2.micro
-        ImageId: ami-09dd2e08d601bff67
-        KeyName: "SBUdacityKP"
+        ImageId: ami-0dd9f0e7df0f0a138
+        KeyName: "udapeople"
         NetworkInterfaces: 
           - AssociatePublicIpAddress: "true"
             DeviceIndex: "0"
@@ -258,42 +252,42 @@ Resources:
           Fn::Base64: !Sub |
             #!/bin/bash
             #--Setup Server--
-            apt-get update -y
+            sudo apt-get update -y
             # Install Unzip
-            apt install unzip
+            sudo apt install unzip
             # Install JQ for JSON Parsing
-            apt install jq -y
+            sudo apt install jq -y
             # Python, Python 3 and Python 3 Virtual Environment
-            apt install python-pip -y
-            apt install python3-pip -y
-            apt-get install python3-venv -y
+            sudo apt install python-pip -y
+            sudo apt install python3-pip -y
+            sudo apt-get install python3-venv -y
             # Make
-            pip3 install make
+            sudo pip3 install make
             # Docker Setup
-            apt install docker.io -y
-            apt-get update -y
-            groupadd docker
-            usermod -aG docker ubuntu
+            sudo apt install docker.io -y
+            sudo apt-get update -y
+            sudo groupadd docker
+            sudo usermod -aG docker ubuntu
             # Get Hadolint
             wget -O /usr/bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.17.6/hadolint-Linux-x86_64
-            chmod +x /usr/bin/hadolint
+            sudo chmod +x /usr/bin/hadolint
             # Setup Git
-            git config --global user.name "Sean B"
-            git config --global user.email "deitryn@gmail.com"
+            sudo git config --global user.name "BradMHunter"
+            sudo git config --global user.email "bradley@hertfordshire.co.za"
             # AWS CLI V2
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            ./aws/install
+            sudo unzip awscliv2.zip
+            sudo ./aws/install
             # Install Kubectl
             curl -o kubectl https://amazon-eks.s3.us-east-2.amazonaws.com/1.16.8/2020-04-16/bin/linux/amd64/kubectl
-            chmod +x ./kubectl
-            mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
-            echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc
+            sudo chmod +x ./kubectl
+            sudo mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
+            sudo echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc
             # Install eksctl
             curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/0.20.0-rc.0/eksctl_Linux_amd64.tar.gz" | tar xz -C /tmp
-            mv /tmp/eksctl /usr/local/bin
+            sudo mv /tmp/eksctl /usr/local/bin
             # Generate SSH Key
-            ssh-keygen -t rsa
+            sudo ssh-keygen -t rsa
       Type: AWS::EC2::Instance
 
     # EKS Setup
@@ -326,7 +320,7 @@ Resources:
                 DesiredSize: 1
                 MaxSize: 1
             Labels:
-                Key1: !Sub ${EnvironmentName}-EKSNodegroup
+                Key1: CapstoneEnvName-EKSNodegroup
             Subnets:
                 - !Ref PublicSubnet1
                 - !Ref PublicSubnet2
@@ -335,25 +329,25 @@ Outputs:
     VPC: 
         Description: A reference to the created VPC
         Export:
-          Name: !Sub ${EnvironmentName}-VPCID
+          Name: CapstoneEnvName-VPCID
         Value: !Ref VPC
     JenkinsInstanceIP: 
         Description: A reference to the created Jenkins EC2 IP
         Export:
-          Name: !Sub ${EnvironmentName}-JenkinsInstanceID
+          Name: CapstoneEnvName-JenkinsInstanceID
         Value: !GetAtt JenkinsInstance.PublicIp
     UbuntuDevInstanceIP:
         Description: A reference to the created Ubuntu Dev EC2 IP
         Export:
-          Name: !Sub ${EnvironmentName}-UbuntuDevInstanceID
+          Name: CapstoneEnvName-UbuntuDevInstanceID
         Value: !GetAtt UbuntuDevInstance.PublicIp
     EKSClusterInstanceARN:
         Description: A reference to the created EKS Cluster
         Export:
-          Name: !Sub ${EnvironmentName}-EKSClusterARN
+          Name: CapstoneEnvName-EKSClusterARN
         Value: !GetAtt EKSCluster.Arn
     EKSClusterRoleArn: 
         Description: A reference to the created EKSClusterRoleArn
         Export:
-          Name: !Sub ${EnvironmentName}-EKSClusterRole
+          Name: CapstoneEnvName-EKSClusterRole
         Value: !GetAtt EKSClusterRole.Arn
