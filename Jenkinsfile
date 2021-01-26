@@ -4,10 +4,10 @@ pipeline {
     stages{
         stage('deploy to S3'){
             steps{
-                sh 'aws s3 cp templates/index.html s3://mys3website-ac'
-                sh 'aws s3api put-object-acl --bucket mys3website-ac --key index.html --acl public-read'
-                sh 'aws s3 cp templates/error.html s3://mys3website-ac'
-                sh 'aws s3api put-object-acl --bucket mys3website-ac --key error.html --acl public-read'
+                sh 'aws s3 cp templates/index.html http://mytestsa.s3-website.us-east-2.amazonaws.com'
+                sh 'aws s3api put-object-acl --bucket http://mytestsa.s3-website.us-east-2.amazonaws.com --key index.html --acl public-read'
+                sh 'aws s3 cp templates/error.html http://mytestsa.s3-website.us-east-2.amazonaws.com'
+                sh 'aws s3api put-object-acl --bucket http://mytestsa.s3-website.us-east-2.amazonaws.com --key error.html --acl public-read'
             }
         }
     }
