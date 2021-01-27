@@ -45,7 +45,7 @@ pipeline {
 	stage('Push Image to Amazon ECR') {
 		steps {
 			sh "echo 'Get Login Token for Pushing Docker Image to Amazon ECR'"
-			sh "aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin $ecrURI"
+			sh "aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin $ecrURI"
 			sh "echo 'Get Docker Image ID'"
 			script {
 				dockerImageID = sh(script: 'echo `docker images -q python_website`', returnStdout: true).trim()
