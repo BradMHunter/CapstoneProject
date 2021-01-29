@@ -6,14 +6,13 @@
 # Step 1:
 # Create dockerpath
 # dockerpath=<your docker ID/path>
-dockerpath=deitryn/sb_capstone
+dockerpath=testgreenimage
 
 # Step 2:  
 # Authenticate & tag
 echo "Docker ID and Image: $dockerpath"
-docker login --username deitryn
-docker tag deitryn/sb_capstone deitryn/sb_capstone[:capstone]
-
+docker login --username aycav
+docker tag testgreenimage aycav/testgreenimage
 # Step 3:
 # Push image to a docker repository
-docker push deitryn/sb_capstone
+docker push aycav/testgreenimage
