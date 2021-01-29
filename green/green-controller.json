@@ -22,7 +22,7 @@
             "containers":[
                {
                   "name":"green",
-                  "image":"aycav/testgreenimage:latest",
+                  "image":"BradMHunter/testgreenimage:latest",
                   "imagePullPolicy": "Always",
                   "ports":[
                      {
