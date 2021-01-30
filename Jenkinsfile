@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Build blue image') {
       steps {
-        withCredentials(bindings: [[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker', usernameVariable: 'docker', passwordVariable: 'DOCKER_PASSWORD']]) {
+        withCredentials(bindings: [[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker', usernameVariable: 'ubuntu', passwordVariable: 'ubuntu']]) {
           sh '''
 						docker build -t BradMHunter/CapstoneProject .
 					'''
@@ -14,7 +14,7 @@ pipeline {
 
     stage('Push blue image') {
       steps {
-        withCredentials(bindings: [[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]) {
+        withCredentials(bindings: [[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker', usernameVariable: 'ubuntu', passwordVariable: 'ubuntu']]) {
           sh '''
 						docker login -u docker -p docker
 						docker push BradMHunter/CapstoneProject
