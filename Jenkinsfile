@@ -16,18 +16,7 @@ pipeline {
       }
     }
 
-    stage('Push blue image') {
-    script {
-      docker.withRegistry( '', registryCredential ) {
-        dockerImage.push()
-      }							docker push brad/capstoneproject
-					'''
-        }
-
-      }
-    }
-
-    stage('create the kubeconfig file') {
+      stage('create the kubeconfig file') {
       steps {
         withAWS(region: 'us-east-2', credentials: 'aws-credential') {
           sh '''
