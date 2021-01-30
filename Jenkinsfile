@@ -16,7 +16,7 @@ pipeline {
       steps {
         withCredentials(bindings: [[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker', usernameVariable: 'ubuntu', passwordVariable: 'ubuntu']]) {
           sh '''
-						docker login -u docker -p docker
+						docker login -u ubuntu -p ubuntu
 						docker push brad/capstoneproject
 					'''
         }
