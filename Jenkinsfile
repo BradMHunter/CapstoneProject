@@ -28,7 +28,7 @@ pipeline {
       steps {
         withAWS(region: 'us-east-2', credentials: 'aws-credential') {
           sh '''
-						aws eks --region us-east-2 update-kubeconfig --name jenkinscluster
+						aws eks --region us-east-2 update-kubeconfig --name cap
 					'''
         }
 
