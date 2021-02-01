@@ -22,7 +22,7 @@
             "containers":[
                {
                   "name":"blue",
-                  "image":"bmhunter/capstone:latest",
+                  "image":"bmhunter/testblueimage:latest",
                   "imagePullPolicy": "Always",
                   "ports":[
                      {
