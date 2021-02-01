@@ -22,7 +22,7 @@
             "containers":[
                {
                   "name":"blue",
-                  "image":"BradMHunter/testblueimage:latest",
+                  "image":"bradmhunter/testblueimage:latest",
                   "imagePullPolicy": "Always",
                   "ports":[
                      {
