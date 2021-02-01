@@ -5,7 +5,7 @@ pipeline {
             steps {
 			    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub_id', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
 				    sh '''
-						docker build -t bmhunter/capstone -f blue/Dockerfile .
+						docker build -t bmhunter/testblueimage -f blue/Dockerfile .
 					'''
 			    }
 		    }
@@ -15,7 +15,7 @@ pipeline {
 				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub_id', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
 					sh '''
 						docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-						docker push bmhunter/capstone
+						docker push bmhunter/testblueimage
 					'''
 				}
 			}
