@@ -1,11 +1,6 @@
 pipeline {
     agent any
     stages {
-        stage('Linting') {
-            steps {
-				sh 'tidy -q -e  **/*.html'
-			}
-        }
         stage('Build blue image') {
             steps {
 			    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub_id', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
