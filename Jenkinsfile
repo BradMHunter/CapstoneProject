@@ -1,21 +1,21 @@
 pipeline {
     agent any
     stages {       
-        stage('Build blue image') {
+        stage('Build green image') {
             steps {
 			    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub_id', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
 				    sh '''
-						docker build -t bmhunter/testblueimage -f blue/Dockerfile .
+						docker build -t bmhunter/testgreenimage -f green/Dockerfile .
 					'''
 			    }
 		    }
         }        
-        stage('Push blue image') {
+        stage('Push green image') {
             steps {
 				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub_id', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
 					sh '''
 						docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-						docker push bmhunter/testblueimage
+						docker push bmhunter/testgreenimage
 					'''
 				}
 			}
@@ -33,7 +33,7 @@ pipeline {
             steps {
 				withAWS(region:'us-east-2', credentials:'udapeople_deploy') {
 					sh '''
-						kubectl apply -f ./blue/blue-controller.json
+						kubectl apply -f ./green/green-controller.json
 					'''
 				}
 			}
