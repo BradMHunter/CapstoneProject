@@ -22,7 +22,7 @@ pipeline {
         }
         stage('create the kubeconfig file') {
             steps {
-				withAWS(region:'us-east-2', credentials:'aws-credential') {
+				withAWS(region:'us-east-2', credentials:'udapeople_deploy') {
 					sh '''
 						aws eks --region us-east-2 update-kubeconfig --name cap
 					'''
@@ -31,7 +31,7 @@ pipeline {
         }
         stage('Deploy blue container') {
             steps {
-				withAWS(region:'us-east-2', credentials:'aws-credential') {
+				withAWS(region:'us-east-2', credentials:'udapeople_deploy') {
 					sh '''
 						kubectl apply -f ./blue/blue-controller.json
 					'''
@@ -40,7 +40,7 @@ pipeline {
         }
         stage('Redirect service to blue container') {
             steps {
-				withAWS(region:'us-east-2', credentials:'aws-credential') {
+				withAWS(region:'us-east-2', credentials:'udapeople_deploy') {
 					sh '''
 						kubectl apply -f ./blue-green-service.json
 					'''
@@ -49,7 +49,7 @@ pipeline {
         }
 		stage('Get Services') {
             steps {
-				withAWS(region:'us-east-2', credentials:'aws-credential') {
+				withAWS(region:'us-east-2', credentials:'udapeople_deploy') {
 					sh '''
 						kubectl get services
 					'''
