@@ -66,10 +66,10 @@ pipeline {
             steps {
                 sh 'tidy -q -e /var/lib/jenkins/workspace/CapstoneProject_main/blue/*.html'
                 sh 'tidy -q -e /var/lib/jenkins/workspace/CapstoneProject_main/green/*.html'
-                            }
-        }       
+                                }
+                        }       
 	    
-     }
+        }
         stage('Build green image') {
             steps {
 			    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub_id', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
