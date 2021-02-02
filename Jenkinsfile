@@ -53,7 +53,7 @@ pipeline {
 				}
 			}
         }
-		stage('Get Services') {
+	stage('Get Services') {
             steps {
 				withAWS(region:'us-east-2', credentials:'udapeople_deploy') {
 					sh '''
@@ -62,3 +62,6 @@ pipeline {
 				}
 			}
         }
+        
+     }
+}
