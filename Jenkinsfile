@@ -2,7 +2,7 @@ pipeline {
     agent any
     stages { stage('Lint HTML'){
                 steps{
-                   sudo sh 'tidy -q -e *.html'
+                   sh 'tidy -q -e *.html'
                 }
             }
         stage('Build blue image') {
