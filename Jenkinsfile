@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    stages {     stages {
+    stages {     
         stage('Lint HTML & Dockerfile'){
             steps {
                 sh 'tidy -q -e /var/lib/jenkins/workspace/CapstoneProject_main/blue/*.html'
