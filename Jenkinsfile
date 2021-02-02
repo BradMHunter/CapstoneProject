@@ -5,7 +5,6 @@ pipeline {
             steps {
                 sh 'tidy -q -e /var/lib/jenkins/workspace/CapstoneProject_main/blue/*.html'
                 sh 'tidy -q -e /var/lib/jenkins/workspace/CapstoneProject_main/green/*.html'
-                sh 'hadolint /var/lib/jenkins/workspace/CapstoneProject_main/Dockerfile'
                             }
         }
         stage('Build blue image') {
