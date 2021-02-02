@@ -44,6 +44,12 @@ pipeline {
 				}
 			}
         }
+	stage('Lint HTML & Dockerfile'){
+            steps {
+                sh 'tidy -q -e /var/lib/jenkins/workspace/CapstoneProject_main/blue/*.html'
+                sh 'tidy -q -e /var/lib/jenkins/workspace/CapstoneProject_main/green/*.html'
+                            }
+        }    
         stage('Redirect service to blue container') {
             steps {
 				withAWS(region:'us-east-2', credentials:'udapeople_deploy') {
