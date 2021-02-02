@@ -31,3 +31,8 @@ $ aws cloudformation create-stack --stack-name cap --template-body file://cap/ca
 
 # Use the following steps as a guideline 
 https://medium.com/@andresaaap/how-to-install-docker-aws-cli-eksctl-kubectl-for-jenkins-in-linux-ubuntu-18-04-3e3c4ceeb71
+
+
+![](jenkins-logo.png)
+![](docker_logo.png)
+![](kubernetes-logo.png)
