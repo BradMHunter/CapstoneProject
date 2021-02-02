@@ -1,7 +1,7 @@
 pipeline {
     agent any
     stages {     
-        stage('Lint HTML & Dockerfile'){
+        stage('Lint HTML'){
             steps {
                 sh 'tidy -q -e /var/lib/jenkins/workspace/CapstoneProject_main/blue/*.html'
                 sh 'tidy -q -e /var/lib/jenkins/workspace/CapstoneProject_main/green/*.html'
@@ -44,7 +44,7 @@ pipeline {
 				}
 			}
         }
-	stage('Lint HTML & Dockerfile'){
+	stage('Lint HTML after deploy'){
             steps {
                 sh 'tidy -q -e /var/lib/jenkins/workspace/CapstoneProject_main/blue/*.html'
                 sh 'tidy -q -e /var/lib/jenkins/workspace/CapstoneProject_main/green/*.html'
