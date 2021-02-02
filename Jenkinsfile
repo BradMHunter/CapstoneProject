@@ -1,10 +1,13 @@
 pipeline {
     agent any
-    stages { stage('Lint HTML'){
-                steps{
-                   sh 'tidy -q -e *.html'
-                }
-            }
+    stages {     stages {
+        stage('Lint HTML & Dockerfile'){
+            steps {
+                sh 'tidy -q -e /var/lib/jenkins/workspace/CapstoneProject_main/blue/*.html'
+                sh 'tidy -q -e /var/lib/jenkins/workspace/CapstoneProject_main/green/*.html'
+                sh 'hadolint /var/lib/jenkins/workspace/CapstoneProject_main/Dockerfile'
+                            }
+        }
         stage('Build blue image') {
             steps {
 			    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub_id', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
