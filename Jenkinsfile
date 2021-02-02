@@ -1,6 +1,19 @@
 pipeline {
     agent any
-    stages {       
+    stages {   stage('Lint HTML'){
+                steps{
+                    sh 'tidy -q -e *.html'
+                }
+            }
+	                stage('Lint Dockerfile'){
+                steps{
+                    sh '''
+						docker pull hadolint/hadolint:latest-debian
+						pwd
+						hadolint --ignore DL3006 Dockerfile
+					'''
+              }
+            }
         stage('Build blue image') {
             steps {
 			    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub_id', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
