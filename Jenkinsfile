@@ -1,11 +1,6 @@
 pipeline {
     agent any
-    stages {   stage('Lint HTML'){
-                steps{
-                    sh 'tidy -q -e *.html'
-                }
-            }
-	                stage('Lint Dockerfile'){
+    stages {  stage('Lint Dockerfile'){
                 steps{
                     sh '''
 						docker pull hadolint/hadolint:latest-debian
